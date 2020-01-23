@@ -1,0 +1,246 @@
+{% extends 'django_formset_vuejs/home.html' %}
+
+{% block content %}
+    <div id="author-books">
+        <h1>
+            Nested formset
+        </h1>
+        <div>
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="author_set-TOTAL_FORMS" v-model="getTotalAuthorForm()"
+                       id="id_author_set-TOTAL_FORMS">
+                <input type="hidden" name="author_set-INITIAL_FORMS" v-model="getInitialAuthorForms()"
+                       id="id_author_set-INITIAL_FORMS">
+                <input type="hidden" name="author_set-MIN_NUM_FORMS" value="0" id="id_author_set-MIN_NUM_FORMS">
+                <input type="hidden" name="author_set-MAX_NUM_FORMS" value="1000" id="id_author_set-MAX_NUM_FORMS">
+
+                <div v-for="(author, author_index) in authors" v-show="author.marked_for_delete !== true">
+
+                    <p v-if="author.id">
+                        <input type="hidden"
+                               v-model="author.marked_for_delete"
+                               v-bind:name="'author_set-' + author.author_formset_index + '-DELETE'"
+                               v-bind:id="'id_author_set-' + author.author_formset_index + '-DELETE'">
+
+                        <input type="hidden"
+                               v-model="author.id"
+                               v-bind:name="'author_set-' + author.author_formset_index + '-id'"
+                               v-bind:id="'id_author_set-' + author.author_formset_index + '-id'"
+                        >
+                    </p>
+                    <div class="">
+                        <div>
+                            <strong>
+                                Author [[getIndexAmongVisibleAuthors(author_index) + 1]]
+                            </strong>
+                        </div>
+                        <div>
+                            <label v-bind:for="'id_author_set-' + author.author_formset_index + '-first_name'">First
+                                name:</label>
+                            <input type="text"
+                                   v-bind:name="'author_set-' + author.author_formset_index +'-first_name'"
+                                   v-model="author.first_name"
+                                   v-bind:id="'id_author_set-' + author.author_formset_index + '-first_name'">
+                        </div>
+
+                        <div>
+                            <label v-bind:for="'id_author_set-' + author.author_formset_index + '-last_name'">Last
+                                name:</label>
+                            <input type="text"
+                                   v-bind:name="'author_set-' + author.author_formset_index +'-last_name'"
+                                   v-model="author.last_name"
+                                   v-bind:id="'id_author_set-' + author.author_formset_index + '-last_name'">
+                        </div>
+
+                        <div>
+                            <label v-bind:for="'id_author_set-' + author.author_formset_index + '-email'">Email:</label>
+                            <input type="text"
+                                   v-bind:name="'author_set-' + author.author_formset_index +'-email'"
+                                   v-model="author.email"
+                                   v-bind:id="'id_author_set-' + author.author_formset_index + '-email'">
+                        </div>
+
+                    </div>
+
+                    <!-- BOOK -->
+                    <div>
+                        <input type="hidden"
+                               v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-TOTAL_FORMS'"
+                               v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-TOTAL_FORMS'"
+                               v-model="getTotalBookForm(author_index)">
+                        <input type="hidden"
+                               v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-INITIAL_FORMS'"
+                               v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-INITIAL_FORMS'"
+                               v-model="getInitialBookForms(author_index)">
+
+                        <input type="hidden"
+                               v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-MIN_NUM_FORMS'"
+                               value="0"
+                               v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-MIN_NUM_FORMS'">
+                        <input type="hidden"
+                               v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-MAX_NUM_FORMS'"
+                               value="1000"
+                               v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-MAX_NUM_FORMS'">
+
+
+                        <div v-for="(book, book_index) in author.nested_book"
+                             v-show="book.marked_for_delete !== true">
+
+                            <span v-if="book.id">
+                                <input type="hidden"
+                                       v-model="book.marked_for_delete"
+                                       v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-DELETE'"
+                                       v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-DELETE'">
+
+                                <input type="hidden"
+                                       v-model="book.id"
+                                       v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-id'"
+                                       v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-id'"
+                                >
+                            </span>
+
+                            <div>
+                                <div>
+                                    <strong>
+                                        Book [[getIndexAmongVisibleBooks(author_index, book_index) + 1]]
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label v-bind:for="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-title'">Title:</label>
+                                <input type="text"
+                                       v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-title'"
+                                       v-model="book.title"
+                                       v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-title'">
+                            </div>
+
+                            <div>
+                                <label v-bind:for="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-isbn'">ISBN:</label>
+                                <input type="text"
+                                       v-bind:name="'nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-isbn'"
+                                       v-model="book.isbn"
+                                       v-bind:id="'id_nested_book-author_set-'+author.author_formset_index+'-book_set-'+book.book_formset_index+'-isbn'">
+                            </div>
+
+                            <div v-show="getTotalVisibleBooks(author_index) > 1">
+                                <a href="" v-on:click="removeBook($event, author_index, book_index)">Remove Book</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div>
+                        <a href="" v-on:click="addNewBook($event,author_index)">Add New Book</a>
+                    </div>
+                </div>
+                <hr/>
+                <div>
+                    <button type="submit" value="Next">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var authors = [{% for author in authors_formset.forms %}
+            {
+                id:  {% if not author.id.value %}
+                    null
+                {% else %}
+                    {{ author.id.value }}
+                {% endif %},
+                author_formset_index: {{ forloop.counter0 }},
+                marked_for_delete: false,
+
+                first_name: '{{ author.first_name.value|default_if_none:"" }}',
+                last_name: '{{ author.last_name.value|default_if_none:"" }}',
+                email: '{{ author.email.value|default_if_none:"" }}',
+
+                nested_book: [
+                    {% if author.nested_book %}
+
+                        {% for nested_form in author.nested_book.forms %}
+                            {
+                                id:  {% if not nested_form.id.value %}
+                                    null
+                                {% else %}
+                                    {{ nested_form.id.value }}
+                                {% endif %},
+                                book_formset_index: {{ forloop.counter0 }},
+                                marked_for_delete: false,
+
+                                title: '{{ nested_form.title.value|default_if_none:"" }}',
+                                isbn: '{{ nested_form.isbn.value|default_if_none:"" }}',
+                            },
+                        {% endfor %}
+                    {% endif %}
+                ],
+            },
+        {% endfor %}];
+
+        if (authors.length === 0) {
+            authors = [
+                {
+                    author_formset_index: 0,
+                    nested_book: [
+                        {
+                            book_formset_index: 0
+                        }
+                    ]
+                }
+            ]
+        }
+        $(document).ready(function () {
+            const v = new Vue({
+                delimiters: ['[[', ']]'],
+                el: '#author-books',
+                data: {
+                    authors: authors,
+                },
+                methods: {
+                    // author
+                    getIndexAmongVisibleAuthors: function (index) {
+                        return this.$data.authors.filter((author, i) => i < index && !author.marked_for_delete).length
+                    },
+                    getInitialAuthorForms: function () {
+                        return this.$data.authors.filter(author => !!author.id).length;
+                    },
+                    getTotalAuthorForm: function () {
+                        return this.$data.authors.map(author => author.author_formset_index).reduce((a, b) => a > b ? a : b, 0) + 1;
+                    },
+                    // books
+                    getIndexAmongVisibleBooks: function (author_index, book_index) {
+                        return this.$data.authors[author_index].nested_book.filter((book, i) => i < book_index && !book.marked_for_delete).length
+                    },
+                    getTotalVisibleBooks: function (author_index) {
+                        return this.$data.authors[author_index].nested_book.filter(book => !book.marked_for_delete).length;
+                    },
+                    getInitialBookForms: function (author_index) {
+                        return this.$data.authors[author_index].nested_book.filter(book => !!book.id).length;
+                    },
+                    getTotalBookForm: function (author_index) {
+                        var books = this.$data.authors[author_index].nested_book;
+                        return books && books.length || 0;
+                    },
+                    addNewBook: function (event, author_index) {
+                        event.preventDefault();
+                        const default_new_book = {
+                            book_formset_index: this.getTotalBookForm(author_index),
+                        };
+                        this.$data.authors[author_index].nested_book.push(default_new_book);
+                    },
+                    removeBook: function (event, author_index, book_index) {
+                        event.preventDefault();
+                        if (this.$data.authors[author_index].nested_book[book_index].id) {
+                            Vue.set(this.authors[author_index].nested_book[book_index], 'marked_for_delete', true);
+                        } else {
+                            this.$data.authors[author_index].nested_book.splice(book_index, 1)
+                        }
+                    },
+                }
+            });
+        });
+
+    </script>
+{% endblock content %}
