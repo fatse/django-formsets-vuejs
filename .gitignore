@@ -1,5 +1,6 @@
 # Created by https://www.gitignore.io
 
+*.pyc
 ### OSX ###
 .DS_Store
 .AppleDouble
@@ -34,7 +35,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
+../env/
 build/
 develop-eggs/
 dist/
@@ -84,4 +85,4 @@ target/
 local_settings.py
 
 .env
-db.sqlite3
+django_vuejs/db.sqlite3

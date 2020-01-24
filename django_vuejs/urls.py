@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django_formset_vuejs.threads import start_cleanup_job
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django_formset_vuejs.urls')),
 ]
+start_cleanup_job()
