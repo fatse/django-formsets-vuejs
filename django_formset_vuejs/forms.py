@@ -11,8 +11,7 @@ class AuthorContainerForm(ModelForm):
 class AuthorForm(ModelForm):
     class Meta:
         model = models.Author
-        fields = ('first_name', 'last_name', 'email')
-
+        fields = ('first_name', 'last_name')
 
 
 class BookForm(ModelForm):
@@ -20,7 +19,6 @@ class BookForm(ModelForm):
         model = models.Book
 
         fields = ('title', 'isbn',)
-
 
 
 BookFormset = inlineformset_factory(models.Author, models.Book, form=BookForm, can_delete=True, extra=0)

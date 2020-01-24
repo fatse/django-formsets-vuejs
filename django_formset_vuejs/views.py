@@ -1,7 +1,6 @@
+from django.contrib import messages
 from django.db import transaction
-from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . import models
 from . import forms
 
@@ -29,7 +28,10 @@ def author_books_formset(request):
                     form.author_container = author
                     form.save()
                 obj = formset.save()
-                return HttpResponseRedirect('home')
+                messages.success(request, 'Saved successfully!')
+                return redirect('author')
+            else:
+                messages.warning(request, 'Please try again!')
     else:
         formset = forms.AuthorsFormset(instance=author)
 
