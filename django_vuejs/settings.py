@@ -24,7 +24,7 @@ SECRET_KEY = 'q#9l=f$yh5ium*e0j(9pb^erydrp%tnd^sj*j=a*r@&ia63qf*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fatse.pythonanywhere.com']
 
 # Application definition
 
