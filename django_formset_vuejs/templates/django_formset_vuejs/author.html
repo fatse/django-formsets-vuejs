@@ -21,7 +21,7 @@
                 <input type="hidden" name="author_set-INITIAL_FORMS" v-model="getInitialAuthorForms()"
                        id="id_author_set-INITIAL_FORMS">
 
-
+                <!-- AUTHOR -->
                 <div v-for="(author, author_index) in authors" v-show="author.marked_for_delete !== true">
 
                     <p v-if="author.id">
@@ -29,7 +29,6 @@
                                v-model="author.marked_for_delete"
                                v-bind:name="'author_set-' + author.author_formset_index + '-DELETE'"
                                v-bind:id="'id_author_set-' + author.author_formset_index + '-DELETE'">
-
                         <input type="hidden"
                                v-model="author.id"
                                v-bind:name="'author_set-' + author.author_formset_index + '-id'"
