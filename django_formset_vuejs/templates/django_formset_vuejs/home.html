@@ -9,6 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Django Formset with Vuejs</title>
 
@@ -19,10 +20,33 @@
             border: 1px solid lightgray;
             border-radius: 5px
         }
+
+        .vertical-center {
+            display: flex;
+            align-items: center;
+        }
+        .home {
+            float: right;
+        }
     </style>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+<div class="jumbotron vertical-center">
+    <div class="container">
+        {% block title %}
+            <h1>Django nested forms</h1>
+        {% endblock title %}
+    </div>
+</div>
+<div class="container">
+    {% block content %}
+        <ul>
+            <li>
+                <a href="{% url 'author' %}">Django nested forms using Django formsets and Vue.js</a>
+            </li>
+        </ul>
+    {% endblock content %}
+</div>
+
 </body>
 </html>
