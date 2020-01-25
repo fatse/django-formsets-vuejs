@@ -12,5 +12,4 @@ def start_cleanup_job():
             Book.objects.all().delete()
 
     thread1 = threading.Thread(target=cleanup_db)
-
     thread1.start()
