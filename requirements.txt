@@ -3,4 +3,4 @@ django-background-tasks==1.2.5
 django-compat==1.0.15
 pytz==2019.2
 six==1.14.0
-sqlparse==0.3.0
+sqlparse==0.4.4
